@@ -1,12 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import configureStore from '@/app/store/configureStore'
+// import configureStore from '@/_app/store/configureStore'
+import { store } from '@/app/store'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import Root from './routes'
+// import instances from './app/services/instance'
 
-const store = configureStore()
+// const store = configureStore()
 
 ReactDOM.render(
   <React.StrictMode>

@@ -32,6 +32,7 @@
     }
   },
   "rules": {
+		"camelcase": "off",
 		"import/no-import-module-exports": "off", 
 		"no-restricted-syntax": "off",
 		"semi": ["error", "never"],

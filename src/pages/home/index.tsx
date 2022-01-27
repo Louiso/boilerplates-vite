@@ -1,6 +1,8 @@
+import { Counter } from '@/containers/Counter'
+
 const HomePage = () => (
   <div>
-    HomePage
+    <Counter />
   </div>
 )
 
