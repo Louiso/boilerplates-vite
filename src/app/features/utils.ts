@@ -28,7 +28,7 @@ export function thunkBuild(
       if (state[_key] && !state[_key].loading) {
         state[_key].loading = true
         state[_key].currentRequestId = action.meta.requestId
-      } else {
+      } else if (!state[_key]) {
         state[_key] = {
           ...initialQueryState,
           currentRequestId: action.meta.requestId,
@@ -39,9 +39,10 @@ export function thunkBuild(
       const _key = key ? key(action) : JSON.stringify(action.meta.arg)
       const { requestId } = action.meta
       const node = state[_key]
+      
       if (node.loading && node.currentRequestId === requestId) {
         node.loading = false
-        node.data = String(action.payload.id)
+        node.data = String(action.payload.result)
         node.currentRequestId = undefined
       }
     })

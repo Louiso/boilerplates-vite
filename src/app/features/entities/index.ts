@@ -3,7 +3,7 @@ import { schema } from 'normalizr'
 const userSchema = new schema.Entity(
   'users',
   {},
-  { idAttribute: (user) => user.login.toLowerCase() },
+  { idAttribute: (user) => String(user.id).toLowerCase() },
 )
 
 const repositorySchema = new schema.Entity(
