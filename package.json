@@ -26,7 +26,8 @@
     "redux-devtools-dock-monitor": "^1.2.0",
     "redux-devtools-log-monitor": "^2.1.0",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.4.1"
+    "redux-thunk": "^2.4.1",
+    "use-debounce": "^7.0.1"
   },
   "devDependencies": {
     "@types/humps": "^2.0.1",

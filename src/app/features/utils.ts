@@ -42,7 +42,7 @@ export function thunkBuild(
       
       if (node.loading && node.currentRequestId === requestId) {
         node.loading = false
-        node.data = String(action.payload.result)
+        node.data = String(action.payload.normalize.result)
         node.currentRequestId = undefined
       }
     })

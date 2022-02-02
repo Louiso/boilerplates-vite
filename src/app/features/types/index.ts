@@ -1,22 +1,22 @@
-export interface _User {
+export interface User {
   login: string;
   id: number;
-  node_id: string;
-  avatar_url: string;
-  gravatar_id: string;
+  nodeId: string;
+  avatarUrl: string;
+  gravatarId: string;
   url: string;
-  html_url: string;
-  followers_url: string;
-  following_url: string;
-  gists_url: string;
-  starred_url: string;
-  subscriptions_url: string;
-  organizations_url: string;
-  repos_url: string;
-  events_url: string;
-  received_events_url: string;
+  htmlUrl: string;
+  followersUrl: string;
+  followingUrl: string;
+  gistsUrl: string;
+  starredUrl: string;
+  subscriptionsUrl: string;
+  organizationsUrl: string;
+  reposUrl: string;
+  eventsUrl: string;
+  receivedEventsUrl: string;
   type: string;
-  site_admin: boolean;
+  siteAdmin: boolean;
   name: string;
   company: string;
   blog: string;
@@ -24,13 +24,13 @@ export interface _User {
   email: null;
   hireable: null;
   bio: null;
-  twitter_username: null;
-  public_repos: number;
-  public_gists: number;
+  twitterUsername: null;
+  publicRepos: number;
+  publicGists: number;
   followers: number;
   following: number;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface _Repository {
@@ -39,7 +39,7 @@ export interface _Repository {
   name: string;
   full_name: string;
   private: boolean;
-  owner: _User;
+  owner: User;
   html_url: string;
   description: null | string;
   fork: boolean;

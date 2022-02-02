@@ -12,7 +12,7 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchUserByUserName.fulfilled, (state, action) => merge({}, state, action.payload.entities[name]))
+      .addCase(fetchUserByUserName.fulfilled, (state, action) => merge({}, state, action.payload.normalize.entities[name]))
   },
 })
 

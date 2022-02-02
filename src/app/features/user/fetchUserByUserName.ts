@@ -3,7 +3,7 @@ import { RootState } from '@/app/store'
 import { camelizeKeys } from 'humps'
 
 import { normalize } from 'normalizr'
-import { _User } from '../types'
+import { User } from '../types'
 import instances from '../instance'
 import { Query, thunkBuild } from '../utils'
 import { userSchema } from '../entities'
@@ -14,15 +14,18 @@ const fetchUserByUserName = createAsyncThunk<any | undefined, { userName: string
   'fetchUserByUserName',
   async ({ userName }, thunkAPI) => {
     try {
-      const state = (thunkAPI.getState() as RootState).fetchUserByUserName[JSON.stringify({ userName })]
+      const state = (thunkAPI.getState() as RootState).fetchUserByUserNameSlice[JSON.stringify({ userName })]
 
       if (!state.loading || thunkAPI.requestId !== state.currentRequestId) {
         return undefined
       }
 
-      const response = (await instances.server.get<_User>(`/users/${userName}`)).data
+      const response = (await instances.server.get<User>(`/users/${userName}`)).data
 
-      return normalize(camelizeKeys(response), userSchema)
+      return {
+        data: response,
+        normalize: normalize(camelizeKeys(response), userSchema),
+      }
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.response.data)
     }
@@ -30,7 +33,7 @@ const fetchUserByUserName = createAsyncThunk<any | undefined, { userName: string
 )
 
 const fetchUserByUserNameSlice = createSlice({
-  name: 'fetchUserByUserName',
+  name: 'fetchUserByUserNameSlice',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
