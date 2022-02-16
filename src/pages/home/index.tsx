@@ -1,4 +1,4 @@
-import Auth from '../../containers/Auth'
+import Auth from '@/containers/Auth'
 
 const HomePage = () => (
   <div>
