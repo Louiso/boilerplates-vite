@@ -1,46 +1,48 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { RootState } from '@/app/store'
-import { camelizeKeys } from 'humps'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { RootState } from 'app/store';
+import { camelizeKeys } from 'humps';
+import { normalize } from 'normalizr';
 
-import { normalize } from 'normalizr'
-import { User } from '../types'
-import instances from '../instance'
-import { Query, thunkBuild } from '../utils'
-import { userSchema } from '../entities'
+import { userSchema } from '../entities';
+import instances from '../instance';
+import { User } from '../types';
+import { Query, thunkBuild } from '../utils';
 
-const initialState: Record<string, Query<string>> = {}
+const initialState: Record<string, Query<string>> = {};
 
-const fetchUserByUserName = createAsyncThunk<any | undefined, { userName: string; }>(
+const fetchUserByUserName = createAsyncThunk<any | undefined, { userName: string }>(
   'fetchUserByUserName',
   async ({ userName }, thunkAPI) => {
     try {
-      const state = (thunkAPI.getState() as RootState).fetchUserByUserNameSlice[JSON.stringify({ userName })]
+      const state = (thunkAPI.getState() as RootState).fetchUserByUserNameSlice[
+        JSON.stringify({ userName })
+      ];
 
       if (!state.loading || thunkAPI.requestId !== state.currentRequestId) {
-        return undefined
+        return undefined;
       }
 
-      const response = (await instances.server.get<User>(`/users/${userName}`)).data
+      const response = (await instances.server.get<User>(`/users/${userName}`)).data;
 
       return {
         data: response,
         normalize: normalize(camelizeKeys(response), userSchema),
-      }
+      };
     } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.response.data)
+      return thunkAPI.rejectWithValue(error.response.data);
     }
   },
-)
+);
 
 const fetchUserByUserNameSlice = createSlice({
   name: 'fetchUserByUserNameSlice',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    thunkBuild(builder, fetchUserByUserName)
+    thunkBuild(builder, fetchUserByUserName);
   },
-})
+});
 
-export { fetchUserByUserName }
+export { fetchUserByUserName };
 
-export default fetchUserByUserNameSlice
+export default fetchUserByUserNameSlice;

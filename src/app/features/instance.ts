@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const instances = {
   server: axios.create({
@@ -8,6 +8,6 @@ const instances = {
     //   return data
     // }],
   }),
-}
+};
 
-export default instances
+export default instances;

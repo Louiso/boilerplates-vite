@@ -1,19 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { merge } from 'lodash'
-import { fetchUserByUserName } from '../user/fetchUserByUserName'
+import { createSlice } from '@reduxjs/toolkit';
+import { merge } from 'lodash';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const initialState: Record<string, any> = {}
+import { fetchUserByUserName } from '../user/fetchUserByUserName';
 
-const name = 'users'
+const initialState: Record<string, any> = {};
+
+const name = 'users';
 const usersSlice = createSlice({
   name,
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchUserByUserName.fulfilled, (state, action) => merge({}, state, action.payload.normalize.entities[name]))
+    builder.addCase(fetchUserByUserName.fulfilled, (state, action) =>
+      merge({}, state, action.payload.normalize.entities[name]),
+    );
   },
-})
+});
 
-export default usersSlice
+export default usersSlice;

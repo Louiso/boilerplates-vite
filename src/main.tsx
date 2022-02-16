@@ -1,11 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-// import configureStore from '@/_app/store/configureStore'
-import { store } from '@/app/store'
-import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import Root from './routes'
+import './index.css';
+
+import { store } from 'app/store';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+import Root from './routes';
 // import instances from './app/services/instance'
 
 // const store = configureStore()
@@ -19,4 +20,4 @@ ReactDOM.render(
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
-)
+);

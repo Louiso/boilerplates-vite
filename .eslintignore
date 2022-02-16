@@ -1,4 +1,12 @@
 *.css
 *.svg
-node_modules
 vite.config.ts
+
+.DS_Store
+dist
+dist-ssr
+*.local
+node_modules
+node_modules/*
+
+src/vite-env.d.ts
