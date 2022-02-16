@@ -1,3 +1,3 @@
-const Context = {}
+const Context = {};
 
-export default Context
+export default Context;

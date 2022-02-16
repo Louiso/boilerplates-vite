@@ -1,9 +1,6 @@
-import {
-  Routes,
-  Route,
-} from 'react-router-dom'
-import DevTools from '@/containers/DevTools'
-import HomePage from '@/pages/home'
+import DevTools from 'containers/DevTools';
+import HomePage from 'pages/home';
+import { Route, Routes } from 'react-router-dom';
 
 const Root = () => (
   <>
@@ -12,6 +9,6 @@ const Root = () => (
     </Routes>
     <DevTools />
   </>
-)
+);
 
-export default Root
+export default Root;

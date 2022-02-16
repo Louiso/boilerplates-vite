@@ -1,5 +1,3 @@
-const CallbackPage = () => (
-  <div />
-)
+const CallbackPage = () => <div />;
 
-export default CallbackPage
+export default CallbackPage;

@@ -1,10 +1,6 @@
 export default function Counter() {
-  console.log('log')
-  return (
-    <div>
-      Counter
-    </div>
-  )
+  console.log('log');
+  return <div>Counter</div>;
   // const count = useAppSelector((state: RootState) => state.counter.value)
   // const { data, loading } = useFetchUserByUserName({ variables: { userName: 'louiso' } })
   // const [clientFetchUserByUserName, fetchResult] = useClientFetchUserByUserName()

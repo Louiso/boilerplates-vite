@@ -1,12 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import { ApolloProvider } from '@apollo/client'
+import './index.css';
 
-import client from './app/client'
+import { ApolloProvider } from '@apollo/client';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 
-import Root from './routes'
-import './index.css'
+import client from './app/client';
+import Root from './routes';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,4 +17,4 @@ ReactDOM.render(
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
-)
+);

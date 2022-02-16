@@ -1,8 +1,8 @@
-import GoogleLogin from 'react-google-login'
+import GoogleLogin from 'react-google-login';
 
 const responseGoogle = (response: any) => {
-  console.log(response)
-}
+  console.log(response);
+};
 
 const Auth = () => (
   <GoogleLogin
@@ -15,6 +15,6 @@ const Auth = () => (
     // accessType="offline"
     cookiePolicy="single_host_origin"
   />
-)
+);
 
-export default Auth
+export default Auth;
