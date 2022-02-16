@@ -1,8 +1,8 @@
-import { Counter } from '@/containers/Counter'
+import Auth from '../../containers/Auth'
 
 const HomePage = () => (
   <div>
-    <Counter />
+    <Auth />
   </div>
 )
 

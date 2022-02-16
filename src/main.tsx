@@ -1,21 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-// import configureStore from '@/_app/store/configureStore'
-import { store } from '@/app/store'
 import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import Root from './routes'
-// import instances from './app/services/instance'
+import { ApolloProvider } from '@apollo/client'
 
-// const store = configureStore()
+import client from './app/client'
+
+import Root from './routes'
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Provider store={store}>
+      <ApolloProvider client={client}>
         <Root />
-      </Provider>
+      </ApolloProvider>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root'),
