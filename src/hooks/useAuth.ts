@@ -1,5 +1,6 @@
 import AuthService from 'app/extensions/auth';
-import { useLayoutEffect, useState } from 'react';
+import AuthContext from 'app/extensions/context';
+import { useContext, useLayoutEffect } from 'react';
 
 interface UseAuthProps {
   // eslint-disable-next-line no-unused-vars
@@ -8,9 +9,9 @@ interface UseAuthProps {
   onError: (error: any) => void;
   pause?: boolean;
 }
+
 export const useAuth = ({ onCompleted, onError, pause }: UseAuthProps) => {
-  const [user, setUser] = useState<any | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading, setUser, setLoading } = useContext(AuthContext);
 
   useLayoutEffect(() => {
     if (!pause) {

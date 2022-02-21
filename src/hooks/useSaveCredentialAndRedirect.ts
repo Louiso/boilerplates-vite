@@ -1,4 +1,3 @@
-import { AccessToken } from 'app/extensions/auth';
 import queryString from 'query-string';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,21 +20,13 @@ const useSaveCredentialAndRedirect = () => {
         },
       });
     } else {
+      console.log('nagivate to profile');
       navigate('/profile');
     }
   };
 
-  const saveCredentials = (credentials: AccessToken) => {
-    localStorage.setItem('accessToken', credentials.accessToken);
-    localStorage.setItem('userId', credentials.user._id);
-    localStorage.setItem('refreshToken', credentials.refreshToken);
-
-    redirectToCallback();
-  };
-
   return {
     redirectToCallback,
-    saveCredentials,
   };
 };
 

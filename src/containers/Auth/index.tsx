@@ -1,9 +1,11 @@
 // import { useAuthorizationQuery } from 'generated/graphql';
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
-import AuthService from 'app/extensions/auth';
+import AuthService, { AccessToken, saveCredentials } from 'app/extensions/auth';
+import AuthContext from 'app/extensions/context';
 import { useFormik } from 'formik';
 import useSaveCredentialAndRedirect from 'hooks/useSaveCredentialAndRedirect';
+import { useContext } from 'react';
 import GoogleLogin, {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -11,7 +13,15 @@ import GoogleLogin, {
 import * as Yup from 'yup';
 
 const Auth = () => {
-  const { saveCredentials } = useSaveCredentialAndRedirect();
+  const { redirectToCallback } = useSaveCredentialAndRedirect();
+  const { setUser } = useContext(AuthContext);
+
+  const onSuccess = (data: AccessToken) => {
+    saveCredentials(data);
+    setUser(data.user);
+    redirectToCallback();
+  };
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -29,7 +39,7 @@ const Auth = () => {
         password: values.password,
       });
 
-      saveCredentials(loginQueryResult.data);
+      onSuccess(loginQueryResult.data);
     },
   });
 
@@ -41,7 +51,7 @@ const Auth = () => {
       externalApp: 'google',
     });
 
-    saveCredentials(loginQueryResult.data);
+    onSuccess(loginQueryResult.data);
   };
 
   const _handleFailureLogin = (response: any) => {

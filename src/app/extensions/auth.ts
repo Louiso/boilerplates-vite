@@ -29,6 +29,14 @@ export interface AccessToken {
   user: User;
 }
 
+export const saveCredentials = (credentials: AccessToken) => {
+  localStorage.setItem('accessToken', credentials.accessToken);
+  localStorage.setItem('userId', credentials.user._id);
+  localStorage.setItem('refreshToken', credentials.refreshToken);
+  localStorage.setItem('accessTokenExpiresAt', credentials.accessTokenExpiresAt);
+  localStorage.setItem('refreshTokenExpiresAt', credentials.refreshTokenExpiresAt);
+};
+
 const loginWithEmailPassword = async ({
   email,
   password,
@@ -72,10 +80,43 @@ const register = async (email: string, password: string) => {
   return instance.post('/login', { email, password });
 };
 
+const getAccessToken = async () => {
+  const accessToken = localStorage.getItem('accessToken');
+  const accessTokenExpiresAt = localStorage.getItem('accessTokenExpiresAt');
+  const refreshToken = localStorage.getItem('refreshToken');
+  const refreshTokenExpiresAt = localStorage.getItem('refreshTokenExpiresAt');
+
+  if (new Date().getTime() >= new Date(accessTokenExpiresAt!).getTime()) {
+    if (new Date().getTime() < new Date(refreshTokenExpiresAt!).getTime()) {
+      const { data: refreshTokenResponse } = await instance.post<Response<AccessToken>>(
+        '/auth/token',
+        new URLSearchParams({
+          grant_type: 'refresh_token',
+          refresh_token: refreshToken!,
+        }),
+      );
+
+      if (!refreshTokenResponse.success) throw new Error(refreshTokenResponse.message);
+
+      saveCredentials(refreshTokenResponse.data);
+
+      return refreshTokenResponse.data.accessToken;
+    }
+
+    throw new Error('No hay token de acceso válido');
+  }
+
+  return accessToken;
+};
+
+// la cuestión es si en base a este accessToken, si se vence mediante el refreshToken
+// pueda obtener un nuevo accessToken
 const authenticate = async () => {
+  const accessToken = await getAccessToken();
+
   const { data } = await instance.get<Response<AccessToken>>('/auth/authenticate', {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 
