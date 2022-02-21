@@ -3,8 +3,12 @@ import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -59,11 +63,9 @@ export type Query = {
   holaMundo?: Maybe<Scalars['String']>;
 };
 
-
 export type QueryGetCountryCodeArgs = {
   ip: Scalars['String'];
 };
-
 
 export type QueryHolaMundoArgs = {
   name: Scalars['String'];
@@ -85,20 +87,21 @@ export type User = {
   photo?: Maybe<Scalars['String']>;
 };
 
-export type AuthorizationQueryVariables = Exact<{ [key: string]: never; }>;
+export type AuthorizationQueryVariables = Exact<{ [key: string]: never }>;
 
-
-export type AuthorizationQuery = { __typename?: 'Query', authorization: { __typename?: 'Response', success: boolean, data?: any | null } };
-
+export type AuthorizationQuery = {
+  __typename?: 'Query';
+  authorization: { __typename?: 'Response'; success: boolean; data?: any | null };
+};
 
 export const AuthorizationDocument = gql`
-    query authorization {
-  authorization {
-    success
-    data
+  query authorization {
+    authorization {
+      success
+      data
+    }
   }
-}
-    `;
+`;
 
 /**
  * __useAuthorizationQuery__
@@ -115,14 +118,32 @@ export const AuthorizationDocument = gql`
  *   },
  * });
  */
-export function useAuthorizationQuery(baseOptions?: Apollo.QueryHookOptions<AuthorizationQuery, AuthorizationQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<AuthorizationQuery, AuthorizationQueryVariables>(AuthorizationDocument, options);
-      }
-export function useAuthorizationLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AuthorizationQuery, AuthorizationQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<AuthorizationQuery, AuthorizationQueryVariables>(AuthorizationDocument, options);
-        }
+export function useAuthorizationQuery(
+  baseOptions?: Apollo.QueryHookOptions<AuthorizationQuery, AuthorizationQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<AuthorizationQuery, AuthorizationQueryVariables>(
+    AuthorizationDocument,
+    options,
+  );
+}
+export function useAuthorizationLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    AuthorizationQuery,
+    AuthorizationQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<AuthorizationQuery, AuthorizationQueryVariables>(
+    AuthorizationDocument,
+    options,
+  );
+}
 export type AuthorizationQueryHookResult = ReturnType<typeof useAuthorizationQuery>;
-export type AuthorizationLazyQueryHookResult = ReturnType<typeof useAuthorizationLazyQuery>;
-export type AuthorizationQueryResult = Apollo.QueryResult<AuthorizationQuery, AuthorizationQueryVariables>;
+export type AuthorizationLazyQueryHookResult = ReturnType<
+  typeof useAuthorizationLazyQuery
+>;
+export type AuthorizationQueryResult = Apollo.QueryResult<
+  AuthorizationQuery,
+  AuthorizationQueryVariables
+>;

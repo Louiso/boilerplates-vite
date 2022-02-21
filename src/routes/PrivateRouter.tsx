@@ -17,7 +17,9 @@ const PrivateRouter: FC<IProps> = ({ children }) => {
       redirectToCallback();
     },
     onError: () => {
-      if (!matchPath('/login', window.location.pathname)) {
+      if (
+        !['/login', '/register'].some((path) => matchPath(path, window.location.pathname))
+      ) {
         navigation({
           pathname: '/login',
           search: window.location.search,
