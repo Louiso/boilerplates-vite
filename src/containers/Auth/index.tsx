@@ -2,15 +2,16 @@
 import { Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import AuthService from 'app/extensions/auth';
-import { useAuth } from 'app/extensions/hooks';
 import { useFormik } from 'formik';
-import GoogleLogin from 'react-google-login';
+import useSaveCredentialAndRedirect from 'hooks/useSaveCredentialAndRedirect';
+import GoogleLogin, {
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from 'react-google-login';
 import * as Yup from 'yup';
 
-const responseGoogle = (response: any) => {
-  console.log(response);
-};
 const Auth = () => {
+  const { saveCredentials } = useSaveCredentialAndRedirect();
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,23 +24,29 @@ const Auth = () => {
       email: Yup.string().email('Invalid email address').required('Required'),
     }),
     onSubmit: async (values) => {
-      const login = await AuthService.loginWithEmailPassword({
+      const loginQueryResult = await AuthService.loginWithEmailPassword({
         email: values.email,
         password: values.password,
       });
-      console.log('login', login);
+
+      saveCredentials(loginQueryResult.data);
     },
   });
 
-  // useAuthorizationQuery();
-  useAuth({
-    onCompleted: () => {
-      // redirigir a la página de redireccionamiento
-    },
-    onError: () => {
-      // no hacer nada para q el usuario se loguee
-    },
-  });
+  const _handleSuccessLogin = async (
+    provideResponse: GoogleLoginResponse | GoogleLoginResponseOffline,
+  ) => {
+    const loginQueryResult = await AuthService.loginWithExternalApp({
+      token: (provideResponse as GoogleLoginResponse).tokenId,
+      externalApp: 'google',
+    });
+
+    saveCredentials(loginQueryResult.data);
+  };
+
+  const _handleFailureLogin = (response: any) => {
+    console.log(response);
+  };
 
   const _handleClickSubmit = () => {
     formik.handleSubmit();
@@ -67,17 +74,14 @@ const Auth = () => {
         variant="standard"
         fullWidth
       />
-      <Button color="primary" onClick={_handleClickSubmit}>
+      <Button color="primary" fullWidth onClick={_handleClickSubmit}>
         Iniciar sesión
       </Button>
       <GoogleLogin
         clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}
-        buttonText="Login"
-        onSuccess={responseGoogle}
-        onFailure={responseGoogle}
-        // prompt="consent"
-        // responseType="code"
-        // accessType="offline"
+        buttonText="Conecta con google"
+        onSuccess={_handleSuccessLogin}
+        onFailure={_handleFailureLogin}
         cookiePolicy="single_host_origin"
       />
     </div>

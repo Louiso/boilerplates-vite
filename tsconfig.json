@@ -18,7 +18,5 @@
     "baseUrl": "./src"
   },
   "include": ["./src", "node_modules/client copy.ts"],
-  "exclude": [
-    "./node_modules"
-  ]
+  "exclude": ["./node_modules"]
 }

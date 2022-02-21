@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 const instance = axios.create({
   baseURL: `${import.meta.env.VITE_AUTH_SERVER_URL}/api/v1`,
@@ -20,10 +20,10 @@ interface User {
   updatedAt: Date;
 }
 
-interface AccessToken {
+export interface AccessToken {
   accessToken: string;
   accessTokenExpiresAt: string;
-  oauthTokenExpiresAt: string;
+  refreshTokenExpiresAt: string;
   refreshToken: string;
   scope: string;
   user: User;
@@ -51,8 +51,21 @@ const loginWithEmailPassword = async ({
   return data;
 };
 
-const loginWithGoogle = async (googleToken: string) => {
-  return instance.post('/login', { googleToken });
+interface LoginWithExternalAppArgs {
+  token: string;
+  externalApp: string;
+}
+
+const loginWithExternalApp = async ({ token, externalApp }: LoginWithExternalAppArgs) => {
+  const { data } = await instance.post<Response<AccessToken>>(
+    '/auth/token',
+    new URLSearchParams({
+      grant_type: 'authorization_code',
+      code: `${externalApp}:${token}`,
+    }),
+  );
+
+  return data;
 };
 
 const register = async (email: string, password: string) => {
@@ -60,17 +73,13 @@ const register = async (email: string, password: string) => {
 };
 
 const authenticate = async () => {
-  const { data } = await instance.get<
-    AxiosResponse<{ data: any; success: boolean; message: string }>
-  >('/auth/authenticate', {
+  const { data } = await instance.get<Response<AccessToken>>('/auth/authenticate', {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
 
-  console.log('data.data', data.data);
-
-  if (!data.data.success) throw new Error(data.data.message);
+  if (!data.success) throw new Error(data.message);
 
   return data;
 };
@@ -78,7 +87,7 @@ const authenticate = async () => {
 const AuthService = {
   loginWithEmailPassword,
   register,
-  loginWithGoogle,
+  loginWithExternalApp,
   authenticate,
 };
 

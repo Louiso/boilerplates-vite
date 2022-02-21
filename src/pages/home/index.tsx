@@ -1,9 +1,3 @@
-import Auth from 'containers/Auth';
-
-const HomePage = () => (
-  <div>
-    <Auth />
-  </div>
-);
+const HomePage = () => <div>HomePage</div>;
 
 export default HomePage;
